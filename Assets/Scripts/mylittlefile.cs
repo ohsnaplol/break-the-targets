@@ -13,6 +13,6 @@ public class mylittlefile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        debug.log('update (:')
+        Debug.Log("FIXED");
     }
 }
