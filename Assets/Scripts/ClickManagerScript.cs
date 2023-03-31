@@ -4,16 +4,26 @@ using UnityEngine;
 
 public class ClickManagerScript : MonoBehaviour
 {
+
+    public GameObject clickedTarget = null;
+
     void Update()
     {
-        ClickToDestroy();
+        CheckForTargetCollision();
+
+        if(CollisionOcurred())
+        {
+            DestroyTarget(clickedTarget);
+        }
     }
 
-
-
-    public void ClickToDestroy()
+    public bool CollisionOcurred()
     {
+        return (clickedTarget != null);
+    }
 
+    public void CheckForTargetCollision()
+    {
         // Check if the left mouse button is clicked
         if (Input.GetMouseButtonDown(0))
         {
@@ -24,20 +34,19 @@ public class ClickManagerScript : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity);
 
             // If the Raycast hits an object with a Collider2D
-            if (hit.collider != null)
+            if(hit.collider.gameObject.CompareTag("Circle"))
             {
-                // Check if the hit object is the circle we want to destroy
-                if (hit.collider.gameObject.CompareTag("Circle"))
-                {
-                    // Destroy the circle
-                    Destroy(hit.collider.gameObject);
-                }
+                // Set the target to be destroyed
+                clickedTarget = hit.collider.gameObject;
             }
         }
-
     }
 
 
+    public void DestroyTarget(GameObject target)
+    {
+        Destroy(target);
+    }
 
 }
 
